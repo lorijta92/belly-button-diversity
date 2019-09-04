@@ -16,31 +16,61 @@ function buildMetadata(sample) {
 }
 
 function buildCharts(sample) {
-  var url = "/samples/" + sample;
-  console.log(url);
 
-  var test = d3.json(url);
-  console.log(test);
-
+  // @TODO: Use `d3.json` to fetch the sample data for the plots
+  var url = "/sample/" + sample;
+  
   d3.json(url).then(function(response) {
 
+    var sampleValues = [response.sample_values];
+    console.log(sampleValues);
+    
+    var otuIds = [response.otu_ids];
+    var otuLables = [response.otu_labels];
+
+    // @TODO: Build a Pie Chart
+    // .slice() to grab the top 10 sample_values, otu_ids, and labels (10 each).
     var trace1 = {
-      values:response.sample_values.sort((a, b)=> b-a).slice(0,10),
-      labels:response.otu_ids.sort((a, b)=> b-a).slice(0,10),
-      type: "pie",
-      text: response.otu_labels.sort((a, b)=> b-a).slice(0,10)
+      values: sampleValues.sort((a, b) => b-a).slice(0,10), //sample_values
+      labels: otuIds.sort((a, b) => b-a).slice(0,10), //otu_ids
+      type: 'pie',
+      text: otuLables.sort((a, b) => b-a).slice(0,10) //otu_labels
     };
 
     var data1 = [trace1];
 
     var layout1 = {
-      title: "Pie Chart",
       height: 500,
       width: 500
     };
 
     Plotly.plot("pie", data1, layout1);
   });
+
+    // @TODO: Build a Bubble Chart using the sample data
+  //   d3.json(url).then(function(response) {
+
+  //     var trace2 = {
+  //       x: otuIds,
+  //       y: sampleValues,
+  //       text: otuLabels,
+  //       mode: 'markers',
+  //       marker: {
+  //         size: sampleValues,
+  //         color: otuIds
+  //       }
+  //     };
+
+  //     var data2 = [trace2];
+
+  //     var layout2 = {
+  //       title: "title",
+  //       xaxis: "OTU IDs",
+  //       yaxis: "Sample Values"
+  //     };
+
+  //     Plotly.plot("bubble", data2, layout2);
+  //   });
 }
 
 function init() {
