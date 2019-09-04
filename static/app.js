@@ -18,9 +18,26 @@ function buildMetadata(sample) {
 function buildCharts(sample) {
 
   // @TODO: Use `d3.json` to fetch the sample data for the plots
+  d3.json("/samples/<sample>").then(function(response) {
+    console.log(response);
+    var trace = {
+      values:[], //sample_values
+      labels:[], //out_ids
+      type: 'pie',
+      text:[] //otu_labels
+    };
+
+    var data = [trace];
+
+    var layout ={
+      height: 500,
+      width: 500
+    };
+    Plotly.pot("pie", data, layout);
+  });
 
     // @TODO: Build a Bubble Chart using the sample data
-
+ 
     // @TODO: Build a Pie Chart
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
