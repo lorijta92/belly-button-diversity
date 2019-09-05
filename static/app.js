@@ -1,27 +1,29 @@
 function buildMetadata(sample) {
-
-  // @TODO: Complete the following function that builds the metadata panel
-
-  // Use `d3.json` to fetch the metadata for a sample
-  var url = "/metadata/" + sample;
   
+  var url = "/metadata/" + sample;
+
   d3.json(url).then(function(response) {
-    console.log(response);
+    var dict = [];
 
-    // for (let [key, value] of Object.entries(response)) { // Use `Object.entries` to add each key and value pair to the panel
-    //   console.log(`${key}: ${value}`);
-    //   return `${key}: ${value}`;
-    // }
+    for (let [key, value] of Object.entries(response)) {
+      dict.push({
+        key: key,
+        value: value
+      });
+    }
 
-    d3.select("#sample-metadata")  // Use d3 to select the panel with id of `#sample-metadata`
-    .html("") // Use `.html("") to clear any existing metadata
+    console.log(dict);
+
+    d3.select("#sample-metadata")
+    .html("")
+    .selectAll("p")
+    .data(dict)
     .enter()
     .append("p")
-    .html(Object.entries(response).forEach(([key, value]) => {return `${key}: ${value}`})) 
+    .html(function(d) {
+      return `${d.key}: ${d.value}`;
+    });
   });
-
-  // Hint: Inside the loop, you will need to use d3 to append new
-  // tags for each key-value in the metadata.
 }
 
 function buildCharts(sample) {
