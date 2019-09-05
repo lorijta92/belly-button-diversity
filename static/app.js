@@ -25,24 +25,14 @@ function buildCharts(sample) {
   var url = "/samples/" + sample;
   console.log(url);
 
-  var test = d3.json(url);
-  console.log(test);
-
   // Pie Chart
   d3.json(url).then(function(response) {
 
-    // var trace1 = {
-    //   values:response.sample_values.sort((a, b)=> b-a).slice(0,10),
-    //   labels:response.otu_ids.sort((a, b)=> b-a).slice(0,10),
-    //   type: "pie",
-    //   hoverinfo: response.otu_labels.sort((a, b)=> b-a).slice(0,10)
-    // };
-
     var trace1 = {
-      values: response["sample_values"].sort((a, b)=> b-a).slice(0,10),
-      labels: response["otu_ids"].sort((a, b)=> b-a).slice(0,10),
+      values:response.sample_values.slice(0,10),
+      labels:response.otu_ids.slice(0,10),
       type: "pie",
-      hoverinfo: response["otu_labels"].sort((a, b)=> b-a).slice(0,10)
+      hoverinfo: response.otu_labels.slice(0,10)
     };
 
     var data1 = [trace1];
