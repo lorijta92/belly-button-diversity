@@ -3,27 +3,30 @@ function buildMetadata(sample) {
   // @TODO: Complete the following function that builds the metadata panel
 
   // Use `d3.json` to fetch the metadata for a sample
-  // Use d3 to select the panel with id of `#sample-metadata`
   var url = "/metadata/" + sample;
+  
   d3.json(url).then(function(response) {
     console.log(response);
+
+    // for (let [key, value] of Object.entries(response)) { // Use `Object.entries` to add each key and value pair to the panel
+    //   console.log(`${key}: ${value}`);
+    //   return `${key}: ${value}`;
+    // }
+
+    d3.select("#sample-metadata")  // Use d3 to select the panel with id of `#sample-metadata`
+    .html("") // Use `.html("") to clear any existing metadata
+    .enter()
+    .append("p")
+    .html(Object.entries(response).forEach(([key, value]) => {return `${key}: ${value}`})) 
   });
 
-  // Use `.html("") to clear any existing metadata
-
-  // Use `Object.entries` to add each key and value pair to the panel
   // Hint: Inside the loop, you will need to use d3 to append new
   // tags for each key-value in the metadata.
-
-  // BONUS: Build the Gauge Chart
-  // buildGauge(data.WFREQ);
 }
 
 function buildCharts(sample) {
-  console.log(sample);
   
   var url = "/samples/" + sample;
-  console.log(url);
 
   // Pie Chart
   d3.json(url).then(function(response) {
@@ -47,6 +50,34 @@ function buildCharts(sample) {
   });
 
   // Bubble Chart
+  d3.json(url).then(function(response) {
+    
+    var trace2 = {
+      x: response.otu_ids,
+      y: response.sample_values,
+      text: response.otu_labels,
+      mode: 'markers',
+      marker: {
+        size: response.sample_values,
+        color: response.otu_ids
+      },
+      type: 'scatter'
+    };
+
+    var data2 = [trace2];
+
+    var layout2 = {
+      title: "Belly Button Diversity",
+      xaxis: {title: "OTU ID"},
+      showlegend: false,
+      width: 1200
+    };
+
+    Plotly.plot("bubble", data2, layout2);
+  });
+
+  // BONUS: Build the Gauge Chart
+  // buildGauge(data.WFREQ);
 }
 
 function init() {
