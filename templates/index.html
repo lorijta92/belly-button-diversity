@@ -24,13 +24,13 @@
     <div class="row"> <!-- Row 2 -->
       <div class="col-md-2"> <!-- Column 2.1 -->
 
-        <div class="card">
-          <h5>SELECT Sample:</h5>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        <div class="card border-info">
+          <div class="card-header bg-info text-white" style="font-weight: bold">Select Sample:</div>
+          <select id="selDataset" class="card-body" onchange="optionChanged(this.value)"></select>
         </div>
         <br>
-        <div class="card">
-          <h3 class="card-heading">Sample MetaData</h3>
+        <div class="card border-info">
+          <div class="card-header bg-info text-white" style="font-weight: bold">Sample MetaData</div>
           <div id="sample-metadata" class="card-body"></div>
         </div>
       </div> <!-- Column 2.1 Close -->
@@ -44,20 +44,19 @@
       </div> <!-- Column 2.3 Close -->
 
     </div> <!-- Row 2 Close -->
-
   </div> <!-- Container 1 Close -->
 
-  <div class="row"> <!-- Row 3 -->
-    <div class="col-md-12">
-      <div id="bubble"></div>
-    </div>
-  </div> <!-- Row 3 Close -->
+  <div class="container"> <!-- Container 2 -->
+    <div class="row"> <!-- Row 3 -->
+      <div class="col-md-12">
+        <div id="bubble"></div>
+      </div>
+    </div> <!-- Row 3 Close -->
+  </div> <!-- Container 2 Close -->
 
-  <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
+  <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!-- <script src="{{ url_for('static', filename='js/bonus.js') }}"></script> -->
-  <!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
   <script src="../static/app.js"></script>
 
 </body>
