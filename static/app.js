@@ -28,37 +28,72 @@ function buildMetadata(sample) {
   });
 
   // Gauge Chart for Frequency of Washes
+
+  //https://codepen.io/plotly/pen/rxeZME
+  //https://com2m.de/blog/technology/gauge-charts-with-plotly/
   d3.json(url).then(function(response) {
     console.log(response.WFREQ);
 
-    var trace = {
-      title: {text: "Scrubs per Week"},
-      type: "indicator",
-      mode: "gauge",
-      gauge: {
-        bar: {thickness:0},
-        borderwidth: 0,
-        axis: {
-          range: [0,9],
-          tickmode: "linear"
-        },
-        steps: [
-            {range: [0,1], color: "#f7f2eb"},
-            {range: [1,2], color: "#f3f0e4"},
-            {range: [2,3], color: "#e8e6c8"},
-            {range: [3,4], color: "#e4e8ae"},
-            {range: [4,5], color: "#d4e494"},
-            {range: [5,6], color: "#b6cc8a"},
-            {range: [6,7], color: "#86be7f"},
-            {range: [7,8], color: "#84bb8a"},
-            {range: [8,9], color: "#7fb384"}
-          ]
+    // Number of washes
+    var washes = response.WFREQ;
+
+    // Trig to calc meter point
+    var degrees = 180 - washes,
+      radius = .5;
+    var radians = degrees * Math.PI / 180;
+    var x = radius * Math.cos(radians);
+    var y = radius * Math.sin(radians);
+
+    // Path:
+    var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
+      pathX = String(x),
+      space = ' ',
+      pathY = String(y),
+      pathEnd = ' Z';
+    var path = mainPath.concat(pathX,space,pathY,pathEnd);
+
+    // Pointer center
+    var data = [
+      { type: 'scatter',
+        x: [0],
+        y:[0],
+        marker: {size: 18, color:'850000'},
+        showlegend: false,
+        hoverinfo: 'none'
+      },
+      // Gauge steps
+      { 
+        values: [50/9,50/9,50/9,50/9,50/9,50/9,50/9,50/9,50/9,50],
+        rotation: 90,
+        text: ["8-9", "7-8", "6-7", "5-6", "4-5", "3-4", "2-3", "1-2", "0-1", ""],
+        textinfo: 'text',
+        textposition:'inside',
+        marker: {colors:["#7fb384", "#84bb8a", "#86be7f", "#b6cc8a", "#d4e494", "#e4e8ae", "#e8e6c8", "#f3f0e4", "#f7f2eb", "#ffffff"]},
+        labels: ["8-9", "7-8", "6-7", "5-6", "4-5", "3-4", "2-3", "1-2", "0-1", ""],
+        hoverinfo: 'none',
+        hole: .55,
+        type: 'pie',
+        showlegend: false
       }
+    ];
+
+    var layout = {
+      shapes:[{
+          type: 'path',
+          path: path,
+          fillcolor: '850000',
+          line: {
+            color: '850000'
+          }
+        }],
+      title: '<b>Belly Button Washing Frequency</b><br>Scrubs per Week',
+      xaxis: {zeroline:false, showticklabels:false,
+          showgrid: false, range: [-1, 1]},
+      yaxis: {zeroline:false, showticklabels:false,
+          showgrid: false, range: [-1, 1]}
     };
 
-    var data = [trace];
-
-    Plotly.newPlot("gauge", data);
+    Plotly.newPlot('gauge', data, layout);
   });
 }
 
