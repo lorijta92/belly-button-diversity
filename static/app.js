@@ -38,7 +38,7 @@ function buildMetadata(sample) {
     var washes = response.WFREQ;
 
     // Trig to calc meter point
-    var degrees = 180 - washes,
+    var degrees = 180 - (washes*20),
       radius = .5;
     var radians = degrees * Math.PI / 180;
     var x = radius * Math.cos(radians);
