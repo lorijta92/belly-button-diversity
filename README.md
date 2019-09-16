@@ -2,6 +2,8 @@
 
 Use Plotly.js to build a dashboard of interactive charts and deploy on Heroku.
 
+View dashboard [here](https://jsflask-belly-button-diversity.herokuapp.com/).
+
 ## Process
 
 **Flask**
@@ -21,3 +23,5 @@ The `buildCharts()` function used data from the `/samples` route to build a pie 
 An `init()` function was created to display a list of available samples as user can select from as well as populate the dashboard with default values when the dashboard is first loaded. The final function (`optionChanged()`) simply called the `buildCharts()` and `buildMetadata()` functions based on the user selection. 
 
 **Heroku**
+
+To deploy this dashboard on Heroku, I simply created a new app in Heroku and connected it to the corresponding GitHub repo. Then, I added a `Procfile` and `requirements.txt` file to my repo.
